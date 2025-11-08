@@ -9,27 +9,39 @@ label = sg.Text("Type a to-do")
 # Row two
 input_box = sg.InputText(tooltip="Type a to-do:", key="to-do", font=FONT)
 add_button = sg.Button("Add")
+# Row three
+list_box = sg.Listbox(values=functions.get_todos(), key="todos",
+                      enable_events=True, size=(45, 10))
+edit_button = sg.Button("Edit")
 
 # Making a window
 window = sg.Window(title="__My to-do app__",
-                   layout=[[label], [input_box, add_button]],
+                   layout=[[label], [input_box, add_button], [list_box, edit_button]],
                    font=FONT)
 
 while True:
     event, values = window.read()
-    # print(event)
-    # print(values)
     match event:
+        # Allowing user to add a to-do
         case "Add":
             todos = functions.get_todos()
             new_todo = values["to-do"] + "\n"
             todos.append(new_todo)
             functions.write_todos(todos)
+            window["todos"].update(todos)
+        # Allowing user to edit existing to-do
         case "Edit":
-            pass
+            todo_to_edit = values["todos"][0]
+            new_todo = values["to-do"] + "\n"
+            todos = functions.get_todos()
+            index = todos.index(todo_to_edit)
+            todos[index] = new_todo
+            functions.write_todos(todos)
+            window["todos"].update(values=todos)
+        # Placing current selection in input box
+        case "todos":
+            window["to-do"].update(value=values["todos"][0])
         case "Complete":
-            pass
-        case "Show":
             pass
         case sg.WIN_CLOSED:
             break
