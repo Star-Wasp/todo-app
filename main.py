@@ -2,6 +2,7 @@
 from functions import get_todos, write_todos
 import time
 
+print("Time stamp:")
 today = time.strftime("%b.%d.%Y")
 time_now = time.strftime("%H:%M:%S")
 print(f"""
