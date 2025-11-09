@@ -3,7 +3,7 @@ import FreeSimpleGUI as sg
 import time
 
 # Constants
-FONT = ('Input Mono', 16)
+FONT = ('Input Mono', 12)
 
 # Row one
 label = sg.Text("Type a to-do")
@@ -31,7 +31,7 @@ window = sg.Window(title="__My to-do app__",
                    font=FONT)
 
 while True:
-    event, values = window.read(timeout=10)
+    event, values = window.read(timeout=500)
     window["Clock"].update(value=time.strftime("%H:%M:%S %d/%m/%Y"))
     match event:
         # Allowing user to add a to-do
@@ -65,12 +65,12 @@ while True:
             except IndexError:
                 sg.popup("Please select a to-do to complete!", text_color="dark blue", font=FONT)
 
-        case "Exit":
-            break
-
         # Placing current selection in input box
         case "todos":
             window["to-do"].update(value=values["todos"][0])
+
+        case "Exit":
+            break
 
         case sg.WIN_CLOSED:
             break
